@@ -6,7 +6,9 @@ load("aula-02/data/dados_exercicio.RData")
 
 ### 1 ####
 ## Inicie mostrando uma prévia do conteúdo da variável acessos_alunos
+
 str(acessos_alunos)
+
 ## Dica 1: No material sobre estruturas de dados vimos como exibir uma prévia do conteúdo de uma variável com 2 funções diferentes
 ## Dica 2: Na primeira aula vimos uma função do RStudio que permite visualizar o conteúdo de uma variável, mas neste caso 
 ##         quero ver uma saída na Console.
@@ -16,7 +18,9 @@ str(acessos_alunos)
 
 ### 2 ###
 ## Quantos elementos a variável acessos_alunos possui? Utilize uma função do R que retorna o tamanho da variável.
+
 length(acessos_alunos)
+
 ## Dica: Vimos um exemplo no mesmo material sobre estruturas de dados
 ### # ###
 
@@ -26,7 +30,9 @@ length(acessos_alunos)
 ## Utilizando o seu código de aluno da Uniritter como nome de um valor da lista, imprima uma linha informando quantos acessos
 ## você fez. A linha deve ser impressa na Console, com um texto que diga o seu código de aluno e o valor conforme o seguinte exemplo:
 ## "O aluno <alu...> realizou N acessos."
+
 paste("O aluno <alu201830267> realizou", acessos_alunos$alu201830267, "acessos")
+
 ## Dica 1: Utilize a função paste() para composição do texto que será impresso. 
 ## Dica 2: Vimos exemplos disto nos materiais dos tipos numéricos e das estruturas de dados.
 ### # ###
@@ -36,6 +42,12 @@ paste("O aluno <alu201830267> realizou", acessos_alunos$alu201830267, "acessos")
 ### 4 ###
 ## A operação abaixo cria um vetor com todas as quantidades de acessos por aluno.
 acessos <- unlist(acessos_alunos)
+
+acessos[acessos > acessos_alunos$alu201830267]
+
+acessos_comparacao <- unlist(acessos > acessos_alunos$alu201830267)
+
+acessos_maiores <- which(acessos > acessos_alunos$alu201830267)
 
 ## Após a criação deste vetor, determine quantos colegas fizeram mais acessos que você.
 ## Faça isso em 3 etapas: 
@@ -50,11 +62,13 @@ acessos <- unlist(acessos_alunos)
 ## Combine todas as etapas acima em uma única chamada, sem a criação dos vetores auxiliares
 ### # ###
 
-
+acessos_maiores <- which(acessos > acessos_alunos$alu201830267)
 
 ### 6 ###
 ## Agora determine quantos colegas fizeram menos acessos que você. 
 ## Faça isso utilizando a função sum!
+
+sum(acessos > acessos_alunos$alu201830267)
 
 ## Dica: Lembre que falamos sobre como o R faz conversões implícitas entre o tipo lógico e tipos numéricos
 ### # ###
@@ -67,6 +81,12 @@ acessos <- unlist(acessos_alunos)
 ##   - Alunos que acessaram, mas menos que 10 vezes, recebem 1 ponto
 ##   - Alunos que acessaram 10 vezes ou mais recebem 2 pontos
 ## Crie um vetor chamado notas com a nota de cada aluno, na mesma ordem do vetor de acessos criado para o exercício 4.
+
+notas <- acessos
+
+notas[which(notas==0)] <- NA
+notas[which(notas < 10)] <- 1
+notas[which(notas >= 10)] <- 2
 
 ## Dica: Pode ser mais fácil se iniciar o vetor notas como uma cópia do vetor acessos, modificando os valores conforme as regras
 ## OBSERVAÇÃO :: Não avaliarei participação na forma do enunciado deste exercício. 
@@ -90,19 +110,23 @@ acessos_alunos_e_guest$guest <- NA
 ## Repita as atividades 4, 5, 6, e 7 utilizando o acessos_com_guest no lugar da lista acessos_alunos.
 ## Tome o devido cuidado de sempre criar variáveis com nomes diferentes das já utilizadas! 
 
-
+acessos_maiores_e_guest <- which(acessos > acessos_alunos_e_guest$alu201830267)
+sum(acessos > acessos_alunos_e_guest$alu201830267)
 
 ### 10 ###
 ## Responda as seguintes perguntas:
 
 
 # 1. Houve modificação no número de alunos com mais e com menos acessos que você?
-
+# Não.
 # 2. Como você conclui que o R trata comparações (operações relacionais) entre valores numéricos e NA?
-
+# O R considera o valo NA como sem resposta.
 # 3. Qual o resultado do uso da função sum na presença de NA? O que você conclui sobre a operação de soma de todos os valores de
 #    um vetor na presença de NA?
-
+# Ele desconsidera o valor.
 # 4. Execute o comando abaixo para ler a documentação da função sum e veja se há como modificar a chamada da função sum na presença
 #    de NAs. Teste os exemplos da página de help da função sum.
 help(sum)
+# Sim, existe a possibilidade ao colocar no argumento na.rm como FALSE
+sum(1:5, NA)
+sum(1:5, NA, na.rm = TRUE)
