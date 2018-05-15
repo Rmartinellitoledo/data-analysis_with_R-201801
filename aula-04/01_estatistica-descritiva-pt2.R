@@ -166,7 +166,7 @@ IQR(subset_salarios$REMUNERACAO_REAIS)
 ## ------------------------------------------------------------------------
 print("Atividade")
 
-## Código aqui
+IQR(subset_salarios$REMUNERACAO_REAIS)/ desvio_absoluto
 
 #' 
 #' __Atividade II__
