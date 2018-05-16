@@ -219,6 +219,11 @@ subset_salarios %>%
 #' __Atividade I__
 #' 
 #' Crie um novo dataset contendo a média e a mediana do salário por UF. Adicione uma nova variável determinando, para cada UF, se a média é maior ou menor que a mediana. Ao final, exiba a quantidade de UFs onde a mediana foi maior que a média.
+
+
+## ------------------------------------------------------------------------
+print("Atividade")
+
 subset_salarios %>%
   group_by(UF_EXERCICIO) %>%
   summarise(salario_medio = mean(REMUNERACAO_REAIS)
@@ -228,17 +233,12 @@ subset_salarios %>%
   ungroup() %>%
   count(media_maior)
 
-## ------------------------------------------------------------------------
-print("Atividade")
-
-## Código aqui
-
 #' 
 #' __Atividade II__
 #' 
 #' Qual sua justificativa para a quantidade de casos onde a mediana foi maior que a média? Dica: Observe o gráfico que mostra a média e a mediana. Há cauda longa? Em qual direção?
 #' 
-#'A amostra possui uma concentração maior de observações abaixo da méida, também em função de poucos valores altos muito descrepantes.
+# A amostra possui uma concentração maior de observações abaixo da méida, também em função de poucos valores altos muito descrepantes.
 #' 
 #' >> FIM DA ATIVIDADE
 #' 
