@@ -14,12 +14,9 @@ salarios <- read_csv("aula-03/data/201802_dados_salarios_servidores.csv.gz")
 ## 
 ### # ####
 
-salarios <- mutate(salarios, 
-                    REMUNERACAO_FINAL = salarios$REMUNERACAO_REAIS +
-                     (salarios$REMUNERACAO_DOLARES * 3.2421))
-
-salarios <- filter(salarios,
-                    salarios$REMUNERACAO_FINAL >= 900)
+salarios <- salarios %>%
+  mutate(REMUNERACAO_FINAL = REMUNERACAO_REAIS + (REMUNERACAO_DOLARES * 3.2421)) %>%
+  filter(REMUNERACAO_FINAL >= 900)
 
 ### 2 ####
 ## 
@@ -32,7 +29,14 @@ salarios %>% count(UF_EXERCICIO) %>% pull(UF_EXERCICIO) -> ufs # EXEMPLO
 ## 
 ### # ####
 
-
+salarios %>%
+  mutate(lotacao_vs_exercicio = ORGSUP_LOTACAO == ORGSUP_EXERCICIO) %>%
+  filter(lotacao_vs_exercicio == TRUE) %>%
+  count(DESCRICAO_CARGO) %>%
+  arrange(desc(n)) %>%
+  head(5) %>%
+  pull(DESCRICAO_CARGO) -> cargos_diferente_lotacao
+  
 ### 3 ####
 ## 
 ## Utilizando o vetor criado na atividade anterior, calcule a média e o desvio padrão de cada cargo, 
