@@ -31,7 +31,7 @@ salarios %>% count(UF_EXERCICIO) %>% pull(UF_EXERCICIO) -> ufs # EXEMPLO
 
 salarios %>%
   mutate(lotacao_vs_exercicio = ORGSUP_LOTACAO == ORGSUP_EXERCICIO) %>%
-  filter(lotacao_vs_exercicio == TRUE) %>%
+  filter(lotacao_vs_exercicio == FALSE) %>%
   count(DESCRICAO_CARGO) %>%
   arrange(desc(n)) %>%
   head(5) %>%
@@ -58,4 +58,15 @@ salarios %>% filter(DESCRICAO_CARGO %in% c("MINISTRO DE PRIMEIRA CLASSE", "ANALI
 ## A função group_by permite múltiplos nomes de variáveis na mesma chamada.
 ## 
 ### # ####
-
+EX3 <- salarios %>%
+  group_by(DESCRICAO_CARGO) %>%
+  filter(DESCRICAO_CARGO %in% cargos_diferente_lotacao) %>%
+  summarise(media_salarial = mean(REMUNERACAO_FINAL),
+            desvio_padrao_salarial = sd(REMUNERACAO_FINAL),
+            mediana_salarial = median(REMUNERACAO_FINAL),
+            dam_salarial = median(abs(REMUNERACAO_FINAL - 
+                                        median(REMUNERACAO_FINAL))),
+            menor_salario = min(REMUNERACAO_FINAL),
+            maior_salario = max(REMUNERACAO_FINAL)) %>%
+  ungroup()
+# COMENTARIO: Observando o menor e o maior salário, é impressionante a diferença de valores dentro de um mesmo cargo.
