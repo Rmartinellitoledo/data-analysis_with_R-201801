@@ -166,7 +166,9 @@ IQR(subset_salarios$REMUNERACAO_REAIS)
 ## ------------------------------------------------------------------------
 print("Atividade")
 
-IQR(subset_salarios$REMUNERACAO_REAIS)/ desvio_absoluto
+A1 <- IQR(subset_salarios$REMUNERACAO_REAIS) / 
+  median( abs( subset_salarios$REMUNERACAO_REAIS -
+                 median( subset_salarios$REMUNERACAO_REAIS )))
 
 #' 
 #' __Atividade II__
@@ -177,8 +179,11 @@ IQR(subset_salarios$REMUNERACAO_REAIS)/ desvio_absoluto
 ## ------------------------------------------------------------------------
 print("Atividade")
 
-## Código aqui
-
+A2 <- subset_salarios %>%
+  summarise(Desvio_Padrao = sd(year(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO)),
+            Desvio_Absoluto_Mediana = median(abs(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO -
+                                                   median(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO))),
+            IQR = IQR(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO))
 #' 
 #' >> FIM ATIVIDADE
 #' 
@@ -237,7 +242,20 @@ cor(x = subset_salarios$REMUNERACAO_REAIS, y = 2018 - year( subset_salarios$DATA
 ## ------------------------------------------------------------------------
 print("Atividade")
 
-## Código aqui
+A3 <- subset_salarios %>%
+  summarise(valor_correlacao = cor(x = year(DATA_INGRESSO_ORGAO),
+                                   y = year(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO)),
+            nivel_correlacao = if(valor_correlacao < -0.9) {
+              print("Negativa, muito forte")} else {
+                if(valor_correlacao < -0.7) {print("Negativa, forte")} else {
+                  if(valor_correlacao < -0.5) {print("Negativa, moderada")} else {
+                    if(valor_correlacao < -0.3) {print("Negativa, fraca")} else {
+                      if(valor_correlacao < 0) {print("Negativa, desprezível")} else {
+                        if(valor_correlacao < 0.3) {print("Positiva, desprezível")} else {
+                          if(valor_correlacao < 0.5) {print("Positiva, fraca")} else {
+                            if(valor_correlacao < 0.7) {print("Positiva, moderada")} else {
+                              if(valor_correlacao < 0.9) {print("Positiva, forte")} else {
+                                if(valor_correlacao > 0.9) {print("Positiva, muito forte")}}}}}}}}}})
 
 #' 
 #' >> FIM ATIVIDADE
