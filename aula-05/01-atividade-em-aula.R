@@ -1,12 +1,8 @@
 # Carregue a biblioteca tidyverse. Lembre que outras bibliotecas serão carregadas junto ao tidyverse
 library(tidyverse)
 
-
-
 # Crie um dataframe com o conteúdo do arquivo ted_main.csv.gz. 
 read_csv("aula-05/data/ted_main.csv.gz") -> dF_Aula5
-
-
 
 # Visualize o resumo dos dados do dataframe. Verifique os mínimos, máximos, médias e medianas das variáveis numéricas.
 # As variáveis duration, film_date e published_date estão no tipo de dados apropriado?
@@ -45,7 +41,7 @@ dF_Aula5 <- dF_Aula5 %>%
 dF_Aula5 %>%
   arrange(desc(film_date)) %>%
   tail(15) %>%
-  view()
+  View()
 
 # Crie um dataframe com a contagem de apresentações por ano de filmagem e visualize todo o seu conteúdo
 df_year <- dF_Aula5 %>%
@@ -58,24 +54,29 @@ df_year <- dF_Aula5 %>%
 # Descarte, do data frame de apresentações do TED Talks, aqueles cujo ano de filmagem tiver quantidade de apresentações menor ou igual à quantidade do quarto quantil.
 Quantis <- quantile(df_year$n, probs = seq(from = 0.1, to = 1, by = 0.1))
 
+df_year %>%
+  filter(n > 33) %>%
+  pull(AnoFilmagem) -> AnosFiltrados
+
+dF_Aula5 %>%
+  filter(year(film_date) %in% AnosFiltrados) -> dF_Aula5
+
 # Verifique novamente o resumo dos dados do dataframe
-
-
-
+summary(dF_Aula5)
 
 # Verifique os 10 registros com maior duração.
-
-
-
-
+dF_Aula5 %>%
+  arrange(desc(duration)) %>%
+  head(10) %>%
+  View()
+  
 # Existem apresentações com duração maior que 3 desvios padrão acima da média? Liste elas
-
-
-
+mean(dF_Aula5$duration) + (sd(dF_Aula5$duration) * 3)
+dF_Aula5 %>%
+  filter(duration > as.duration((mean(duration) + (sd(duration) * 3)))) %>%
+  View()
 
 # Calcule os 4 quartis e o IQR da duração das apresentações. Liste as apresentações cuja duração supera 1.5 * o IQR + o terceiro quartil
-
-
 
 
 # Visualize os 10 quantis da quantidade de visualizações
