@@ -127,9 +127,11 @@ IQR(Grupo2$languages)
 
 # Determine a quantidade de apresentações por evento cujo nome inicie com TED. 
 # Utilize a função str_detect para este filtro
-
-
-
+dF_Aula5 %>%
+  mutate(TED = str_detect(event, "^TED")) %>%
+  filter(TED == TRUE) %>%
+  count(event) %>%
+  View()
 
 # Determine, por evento cujo nome inicie com TED e que a quantidade de visualizações dos vídeos foi maior que a mediana calculada anteriormente.
 #   * a quantidade de apresentações resultante do filtro, por evento
@@ -138,7 +140,21 @@ IQR(Grupo2$languages)
 #   * o desvio padrão da quantidade de línguas
 #   * o coeficiente de variação da quantidade de línguas
 ### EXIBA SOMENTE OS EVENTOS COM MAIS DE 10 APRESENTAÇÕES
-
+dF_Aula5 %>%
+  group_by(event) %>%
+  filter(str_detect(event, "^TED") == TRUE) %>%
+  filter(views > median(views)) %>%
+  summarise(Quantidade_Apresentações = count(event),
+            Ano_Evento = min(year(published_date)),
+            Média_Linguas = mean(languages),
+            Desvio_Padrão_Linguas = sd(languages),
+            Coeficiente_Variação = Desvio_Padrão_Linguas / Média_Linguas) %>%
+  View()
+            
+            Quantidade_Apresentações = count(event),
+            ) %>%
+  filter(Quantidade_Apresentações > 10) %>%
+  View()
 
 
 
