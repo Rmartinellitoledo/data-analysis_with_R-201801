@@ -4,7 +4,8 @@ library(tidyverse)
 # Crie um dataframe com o conteúdo do arquivo ted_main.csv.gz. 
 read_csv("aula-05/data/ted_main.csv.gz") -> dF_Aula5
 
-# Visualize o resumo dos dados do dataframe. Verifique os mínimos, máximos, médias e medianas das variáveis numéricas.
+# Visualize o resumo dos dados do dataframe. 
+# Verifique os mínimos, máximos, médias e medianas das variáveis numéricas.
 # As variáveis duration, film_date e published_date estão no tipo de dados apropriado?
 summary(dF_Aula5)
 dF_Aula5 %>%
@@ -30,10 +31,13 @@ dF_Aula5 <- dF_Aula5 %>%
 dF_Aula5 <- dF_Aula5 %>%
   select(- name)
 
-# Visualize novamente o resumo dos dados do dataframe. Verifique os mínimos, máximos, médias e medianas das variáveis numéricas. Verifique as contagens das variáveis categóricas
+# Visualize novamente o resumo dos dados do dataframe. 
+# Verifique os mínimos, máximos, médias e medianas das variáveis numéricas. 
+# Verifique as contagens das variáveis categóricas
 summary(dF_Aula5)
 
-# Verifique quais registros possuem a menor quantidade de línguas. Corrija para que possuam no mínimo 1 idioma.
+# Verifique quais registros possuem a menor quantidade de línguas. 
+# Corrija para que possuam no mínimo 1 idioma.
 dF_Aula5 <- dF_Aula5 %>%
   mutate(languages = if_else(languages == 0, 1L, languages))
 
@@ -76,13 +80,19 @@ dF_Aula5 %>%
   filter(duration > as.duration((mean(duration) + (sd(duration) * 3)))) %>%
   View()
 
-# Calcule os 4 quartis e o IQR da duração das apresentações. Liste as apresentações cuja duração supera 1.5 * o IQR + o terceiro quartil
+# Calcule os 4 quartis e o IQR da duração das apresentações.
+# Liste as apresentações cuja duração supera 1.5 * o IQR + o terceiro quartil
+quantile(as.numeric(dF_Aula5$duration),
+         probs = seq(from = 0, to = 1, by = 0.25)) -> Quartil
 
+IQR(dF_Aula5$duration) -> IQR
+
+dF_Aula5 %>%
+  filter(as.numeric(duration) > ((IQR * 1.5) + Quartil[4])) %>%
+  View()
 
 # Visualize os 10 quantis da quantidade de visualizações
-
-
-
+quantile(dF_Aula5$views, probs = seq(from = 0.1, to = 1, by = 0.1))
 
 # Compare as seguintes estatísticas descritivas da quantidade de visualizações:
 #   * Média e Mediana. Qual é maior?
@@ -90,18 +100,33 @@ dF_Aula5 %>%
 #   * Desvio Absoluto da Mediana e IQR. Quantas vezes o IQR é maior que o Desvio Absoluto da Mediana?
 #   * Com base na média e na mediana, e na razão entre o IQR e o Desvio Absoluto da Mediana, 
 #     você conclui que as quantidades de visualização estão distribuidas de forma simétrica em torno da média?
+mean(dF_Aula5$views) > median(dF_Aula5$views) #Media maior
+median(abs(dF_Aula5$views - median(dF_Aula5$views))) > sd(dF_Aula5$views) #Desvio Padrão maior
+IQR(dF_Aula5$views) / median(abs(dF_Aula5$views - median(dF_Aula5$views))) #2.192295
 
-
-
+#Posso concluir que não estão distribuídos de forma simétrica.
 
 # Calcule a média, o desvio padrão, a mediana e o IQR da quantidade de línguas dos seguintes grupos:
 #     * 10% de vídeos com maior número de visualizações
 #     * 10% de vídeos com menor número de visualizações
+dF_Aula5 %>%
+  arrange(desc(views)) %>%
+  head(abs(nrow(dF_Aula5)) / 10) -> Grupo1
+mean(Grupo1$languages)
+sd(Grupo1$languages)
+median(Grupo1$languages)
+IQR(Grupo1$languages)
 
+dF_Aula5 %>%
+  arrange(desc(views)) %>%
+  tail(abs(nrow(dF_Aula5)) / 10) -> Grupo2
+mean(Grupo2$languages)
+sd(Grupo2$languages)
+median(Grupo2$languages)
+IQR(Grupo2$languages)
 
-
-
-# Determine a quantidade de apresentações por evento cujo nome inicie com TED. Utilize a função str_detect para este filtro
+# Determine a quantidade de apresentações por evento cujo nome inicie com TED. 
+# Utilize a função str_detect para este filtro
 
 
 
