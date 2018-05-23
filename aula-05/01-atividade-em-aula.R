@@ -144,17 +144,13 @@ dF_Aula5 %>%
   group_by(event) %>%
   filter(str_detect(event, "^TED") == TRUE) %>%
   filter(views > median(views)) %>%
-  summarise(Quantidade_Apresentações = count(event),
+  summarise(Quantidade_Apresentações = count(),
             Ano_Evento = min(year(published_date)),
             Média_Linguas = mean(languages),
             Desvio_Padrão_Linguas = sd(languages),
             Coeficiente_Variação = Desvio_Padrão_Linguas / Média_Linguas) %>%
-  View()
-            
-            Quantidade_Apresentações = count(event),
-            ) %>%
-  filter(Quantidade_Apresentações > 10) %>%
-  View()
+  ungroup()
+ ##### ERRO ####
 
 
 
@@ -163,18 +159,27 @@ dF_Aula5 %>%
 #     * Quantidade de visualizações e Duração
 #     * Quantidade de visualizações e Quantidade de Comentários
 #     * Quantidade de Comentários e Quantidade de línguas
-
-
-
+cor(x = dF_Aula5$views, y = dF_Aula5$languages) # Correlação fraca, 0.3758641
+cor(x = dF_Aula5$views, y = dF_Aula5$duration) # Correlação desprezível, 0.0592439
+cor(x = dF_Aula5$views, y = dF_Aula5$comments) # Correlação moderada, 0.5763873
+cor(x = dF_Aula5$comments, y = dF_Aula5$languages) # Correlação fraca, 0.3386114
 
 # Descarte os vídeos cuja duração seja maior que 3 desvios padrões da média. Calcule novamente as 5 correlações solicitadas
+dF_Aula5 %>%
+  filter(duration < as.duration((mean(duration) + (sd(duration) * 3)))) -> NovoDF
+cor(x = NovoDF$views, y = NovoDF$languages) # Correlação fraca, 0,378641
+cor(x = NovoDF$views, y = NovoDF$duration) # Correlação desprezível, 0.592439
+cor(x = NovoDF$views, y = NovoDF$comments) # Correlação moderada, 0.5769718
+cor(x = NovoDF$comments, y = NovoDF$languages) # Correlação fraca, 0.3409573
 
-
-
-
-# Utilizando o data frame original, crie um dataframe com a mediana da duração dos vídeos por ano de filmagem. Calcule a correlação entre o ano e a mediana da duração
+# Utilizando o data frame original, crie um dataframe com a mediana da duração dos vídeos por ano de filmagem. 
+# Calcule a correlação entre o ano e a mediana da duração
 # e interprete o resultado
+read_csv("aula-05/data/ted_main.csv.gz") -> OriginalDF
 
+OriginalDF %>%
+  group_by(AnoFilmagem = year(as_datetime(film_date))) %>%
+  summarise(MedianaDuração = median(as.duration(duration))) %>%
+  ungroup() -> DiferenteDF
 
-
-
+cor(x = DiferenteDF$AnoFilmagem, y = DiferenteDF$MedianaDuração)
