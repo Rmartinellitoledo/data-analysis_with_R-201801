@@ -150,6 +150,7 @@ dF_Aula5 %>%
             Desvio_Padrão_Linguas = sd(languages),
             Coeficiente_Variação = Desvio_Padrão_Linguas / Média_Linguas) %>%
   ungroup() %>%
+  filter(Quantidade_Apresentações > 10) %>%
   View()
 
 # Calcule e classifique as seguintes correlações
