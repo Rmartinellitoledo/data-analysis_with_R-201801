@@ -144,15 +144,13 @@ dF_Aula5 %>%
   group_by(event) %>%
   filter(str_detect(event, "^TED") == TRUE) %>%
   filter(views > median(views)) %>%
-  summarise(Quantidade_Apresentações = count(),
+  summarise(Quantidade_Apresentações = n(),
             Ano_Evento = min(year(published_date)),
             Média_Linguas = mean(languages),
             Desvio_Padrão_Linguas = sd(languages),
             Coeficiente_Variação = Desvio_Padrão_Linguas / Média_Linguas) %>%
-  ungroup()
- ##### ERRO ####
-
-
+  ungroup() %>%
+  View()
 
 # Calcule e classifique as seguintes correlações
 #     * Quantidade de visualizações e Quantidade de línguas
