@@ -55,7 +55,7 @@ library(Hmisc)
 #' 
 ## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
 ### Carga dos dados de exemplo
-ted_talks <- read_csv("data/ted_main.csv.gz") %>%
+ted_talks <- read_csv("/cloud/project/aula-05/data/ted_main.csv.gz") %>%
   mutate( duration  = duration(duration, units = "seconds")
         , film_date = as_datetime(film_date) %>% as_date()
         , published_date = as_datetime(published_date)) %>%
@@ -101,9 +101,11 @@ ggplot( aes( x = year, y = languages )) +
 #' ### Análise do gráfico
 #' 
 #' O que identificamos em relação aos mínimos e máximos?
+# Em alguns anos, aparentam ser outlainers, sendo os minimos em grande concentração
 #' Onde temos maior ocorrência de apresentações, nos eixos x e y?
+# Entre 2005 e 2015
 #' Que padrões a transparência destaca?
-#' 
+# Demonstra a concentração de apresentações. 
 #' 
 #' ## Rótulos
 #' 
@@ -141,7 +143,7 @@ ggplot( aes( x = year, y = languages )) +
 #' 
 ## ------------------------------------------------------------------------
 ted_talks_recentes %>%
-  mutate( year = year( film_date )) %>%
+  mutate( year = year( published_date )) %>%
 ggplot( aes( x = year, y = languages )) +
   stat_summary(fun.data = mean_sdl) +
   scale_x_continuous( breaks = 2005:2017 ) +
@@ -157,6 +159,39 @@ ggplot( aes( x = year, y = languages )) +
 #' > ATIVIDADE
 #' 
 #' Repetir os gráficos de pontos e de sumário utilizando o ano de publicação no eixo x e a duração no eixo y. Cuidado com a escala do eixo y!
+ted_talks %>%
+  mutate( year = year( published_date )) %>%
+  ggplot( aes( x = year, y = as.numeric(duration) )) +
+  geom_point( alpha = .3 ) +
+  scale_x_continuous( breaks = seq( from = 1970, to = 2020, by = 5 )) +
+  theme_bw()
+
+ted_talks_recentes %>%
+  mutate( year = year( published_date )) %>%
+  ggplot( aes( x = year, y = as.numeric(duration) )) +
+  geom_point( alpha = .3 ) +
+  scale_x_continuous( breaks = 2005:2017) +
+  labs( x = "Ano de Publicação"
+        , y = "Duração"
+        , title = "Evolução da duração por vídeo ao longo dos anos"
+        , subtitle = "Período considerado somente a partir de 2005. Dados ajustados para mínimo de 1 língua por apresentação."
+        , caption = "Dados de TED Talks de https://www.kaggle.com/rounakbanik/ted-talks/data") +
+  theme_bw()
+
+ted_talks_recentes %>%
+  mutate( year = year( published_date )) %>%
+  ggplot( aes( x = year, y = as.numeric(duration) )) +
+  stat_summary(fun.data = mean_sdl) +
+  scale_x_continuous( breaks = 2005:2017 ) +
+  scale_y_continuous( breaks = seq(from = 0, to = 2000, by = 500 )) +
+  labs( x = "Ano de Publicação"
+        , y = "Duração"
+        , title = "Evolução da Duração por vídeo ao longo dos anos"
+        , subtitle = "Período considerado somente a partir de 2005. Dados ajustados para mínimo de 1 língua por apresentação.\n O ponto é a média no ano e a barra vertical representa o intervalo de 2 desvios acima e abaixo da média."
+        , caption = "Dados de TED Talks de https://www.kaggle.com/rounakbanik/ted-talks/data") +
+  theme_bw()
+
+#' 
 #' 
 #' > FIM ATIVIDADE
 #' 
