@@ -15,4 +15,8 @@ ted %>%
   geom_bar( alpha = 0.6) +
   facet_wrap(~ year) +
   scale_x_continuous(labels = scales::format_format(scientific = FALSE)) +
+  labs(x = "Quantidade de Visualizações",
+       y = "Contagem",
+       title = "Histograma de Visualizações",
+       subtitle = "Considerados vídeos com visualizações abaixo da média somados dois desvios padrões") +
   geom_histogram(bins = 15)
