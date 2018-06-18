@@ -333,13 +333,13 @@ ggplot(br_height, aes(x=year, y=height, ymin=lo_95, ymax=hi_95)) +
 #' 1. Utilizando o data frame br_height e as operações do pacote __dplyr__ (__tidyverse__), selecione os dados de altura (height), menor altura dentro do IC (lo_95) e maior altura dentro do IC (hi_95) de acordo com o seu sexo e ano de nascença. 
 #' Crie uma variável que é a divisão de sua altura pela média, e outra que informa se a sua altura está dentro ou fora do intervalo de confiança. 
 #' Em aula, informe o professor sobre os 2 resultados.
-# Pelo que verifiquei no arquivo, esse exercício já está feito.
+# RESPOSTA: Pelo que verifiquei no arquivo, esse exercício já está feito.
 
 #' 2. Baixe o relatório do [LEVANTAMENTO DO PERFIL ANTROPOMÉTRICO DA POPULAÇÃO BRASILEIRA USUÁRIA DO TRANSPORTE AÉREO NACIONAL – PROJETO CONHECER](http://www2.anac.gov.br/arquivos/pdf/Relatorio_Final_Projeto_Conhecer.pdf) e obtenha a média e o desvio padrão da amostra deste relatório (página 23).
 #' 
 #' 3. Considerando que o estudo da ANAC foi realizado entre os anos de 2004 e 2008, e que a média de idade é de 40 anos, com Desvio Padrão de idade de 12 anos, e assumindo como premissa que a altura da pessoa se mantem entre os 20 e os 60 anos, temos um intervalo de aproximadamente 1.65 desvios padrão da média. 
 #' Utilizando a função `pnorm`, calcule os percentuais de 20 anos e 60 anos com a média (mean), e desvio padrão (sd) obtidos neste relatório. Utilize o parâmtro `lower.tail = FALSE` para 60 anos e `lower.tail = TRUE` para 20 anos. Quais são os valores obtidos? Conclua quanto representa, em percentual, os 1.65 desvios padrão.
-#' 
+
 #' 4. Assumindo que a altura aos 18 anos equivale à altura dos 20 aos 60 anos, selecione do data frame br_height a altura média de todas as pessoas que tinham entre 20 e 60 anos entre os anos de 2004 e 2008. Calcule a média de altura de homens e de mulheres neste período. Realize todo este exercício utilizando o __dplyr__. Responda: Com base nas alturas médias obtidas, você acha que mulheres participaram deste estudo?
 #' 
 #' 5. A altura média dos homens calculada no exercício 4 está quantos desvios-padrão acima/abaixo da média anotada no exercício 2?
